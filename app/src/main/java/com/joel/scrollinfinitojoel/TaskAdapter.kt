@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 class TaskAdapter(private val tasks:List<String>):RecyclerView.Adapter<TaskViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+
         val layoutInflater:LayoutInflater = LayoutInflater.from(parent.context)
-        return TaskViewHolder((layoutInflater.inflate(R.layout.item_task, parent)))
+
+        return TaskViewHolder(layoutInflater.inflate(R.layout.item_task, parent,false))
     }
 
     override fun getItemCount() = tasks.size
