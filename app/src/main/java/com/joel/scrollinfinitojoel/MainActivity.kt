@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         val taskToAdd:String = etTask.text.toString()
         tasks.add(taskToAdd)
         adapter.notifyDataSetChanged()
+        etTask.setText("")
     }
 
     private fun initView() {
