@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.joel.scrollinfinitojoel.TaskAdapter
+import com.joel.scrollinfinitojoel.TaskApplication.Companion.prefs
 
 class MainActivity : AppCompatActivity() {
 
