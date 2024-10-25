@@ -1,5 +1,6 @@
 package com.joel.scrollinfinitojoel
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
 
     var tasks = mutableListOf<String>()
-
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
+        tasks = prefs.getTasks()
         rvTask.layoutManager = LinearLayoutManager(this)
         adapter = TaskAdapter(tasks) { deleteTask(it) }
         rvTask.adapter = adapter
@@ -44,7 +46,8 @@ class MainActivity : AppCompatActivity() {
     private fun deleteTask(position: Int) {
         tasks.removeAt(position)
         adapter.notifyDataSetChanged()
-        //prefs.saveTasks(tasks)
+        prefs.saveTasks(tasks)
+        playDeleteTaskSound()
     }
 
     private fun initListeners() {
@@ -56,6 +59,36 @@ class MainActivity : AppCompatActivity() {
         tasks.add(taskToAdd)
         adapter.notifyDataSetChanged()
         etTask.setText("")
+        prefs.saveTasks(tasks)
+        playAddTaskSound() // Reproducir el sonido al añadir tarea
+    }
+
+    private fun playAddTaskSound() {
+        // Liberar el MediaPlayer si ya se está usando
+        mediaPlayer?.release()
+
+        // Inicializar el MediaPlayer con el sonido del recurso raw
+        mediaPlayer = MediaPlayer.create(this, R.raw.add_task_sound)
+        mediaPlayer?.start() // Iniciar la reproducción del sonido
+
+        // Liberar el MediaPlayer al finalizar el audio
+        mediaPlayer?.setOnCompletionListener {
+            it.release()
+        }
+    }
+
+    private fun playDeleteTaskSound() {
+        // Liberar el MediaPlayer si ya se está usando
+        mediaPlayer?.release()
+
+        // Inicializar el MediaPlayer con el sonido de eliminar tarea
+        mediaPlayer = MediaPlayer.create(this, R.raw.delete_task_sound)
+        mediaPlayer?.start() // Iniciar la reproducción del sonido
+
+        // Liberar el MediaPlayer al finalizar el audio
+        mediaPlayer?.setOnCompletionListener {
+            it.release()
+        }
     }
 
     private fun initView() {
