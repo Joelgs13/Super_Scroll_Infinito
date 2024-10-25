@@ -12,11 +12,12 @@ class Preferences(context: Context) {
 
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, 0)
 
+
     fun saveTasks(tasks:List<String>){
         prefs.edit().putStringSet(TASKS, tasks.toSet()).apply()
     }
 
-    fun getTasks():MutableList<String>{
+    /*fun getTasks():MutableList<String>{
         return prefs.getStringSet(TASKS, emptySet<String>())?.toMutableList() ?: mutableListOf()
-    }
+    }*/
 }
