@@ -53,6 +53,6 @@ class MainActivity : AppCompatActivity() {
     private fun initView() {
         btnAddTask = findViewById(R.id.btnAddTask)
         etTask = findViewById(R.id.etTask)
-        rvTask = findViewById(R.id.rvTask)
+        rvTask = findViewById(R.id.rvTasks)
     }
 }
