@@ -36,14 +36,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         rvTask.layoutManager = LinearLayoutManager(this)
-        adapter = TaskAdapter(tasks) { position ->
-            // Aquí defines lo que quieres que suceda cuando una tarea esté "hecha"
-            tasks.removeAt(position)
-            adapter.notifyItemRemoved(position)
-        }
+        adapter = TaskAdapter(tasks) { deleteTask(it) }
         rvTask.adapter = adapter
     }
 
+    private fun deleteTask(position: Int) {
+        tasks.removeAt(position)
+        adapter.notifyDataSetChanged()
+        //prefs.saveTasks(tasks)
+    }
 
     private fun initListeners() {
         btnAddTask.setOnClickListener{addTask()}
