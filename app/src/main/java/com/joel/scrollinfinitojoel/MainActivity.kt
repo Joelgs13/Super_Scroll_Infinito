@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.joel.scrollinfinitojoel.TaskAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,9 +36,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         rvTask.layoutManager = LinearLayoutManager(this)
-        adapter = TaskAdapter(tasks)
+        adapter = TaskAdapter(tasks) { position ->
+            // Aquí defines lo que quieres que suceda cuando una tarea esté "hecha"
+            tasks.removeAt(position)
+            adapter.notifyItemRemoved(position)
+        }
         rvTask.adapter = adapter
     }
+
 
     private fun initListeners() {
         btnAddTask.setOnClickListener{addTask()}
