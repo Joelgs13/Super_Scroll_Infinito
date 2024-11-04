@@ -22,7 +22,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
 
     override fun onCreate(db: SQLiteDatabase) {
-        val createTable = "CREATE TABLE $DATABASE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_CONTENIDO TEXT)"
+        val createTable = "CREATE TABLE $TABLA_TAREAS ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_CONTENIDO TEXT)"
         db.execSQL(createTable)
     }
 
@@ -37,7 +37,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val values = ContentValues().apply {
             put(COLUMN_CONTENIDO, contenido)
         }
-        db.close()
         return db.insert(TABLA_TAREAS, null, values)
     }
 
@@ -54,7 +53,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             listaTasks.add(task)
         }
         cursor.close()
-        db.close()
         return listaTasks
     }
 
@@ -64,7 +62,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val whereArgs = arrayOf(idTask.toString())
         //eliminar el objeto
         db.delete(TABLA_TAREAS, whereClauses, whereArgs)
-        db.close()
     }
 
 }

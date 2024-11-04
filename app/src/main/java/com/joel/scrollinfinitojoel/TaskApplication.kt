@@ -9,13 +9,6 @@ import android.app.Application
  */
 class TaskApplication : Application() {
     lateinit var bbdd: DatabaseHelper
-    companion object {
-        /**
-         * Objeto prefs de tipo Preferences para gestionar las preferencias de la aplicación.
-         * Se inicializa en el método onCreate.
-         */
-        lateinit var prefs: Preferences
-    }
 
     /**
      * Método de ciclo de vida onCreate. Se llama cuando la aplicación es creada.

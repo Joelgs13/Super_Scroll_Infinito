@@ -7,8 +7,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.joel.scrollinfinitojoel.TaskApplication.Companion.prefs
-
 /**
  * MainActivity es la actividad principal de la aplicación. Maneja la interfaz de usuario para
  * la lista de tareas, permitiendo agregar y eliminar tareas y reproducir sonidos al realizar
