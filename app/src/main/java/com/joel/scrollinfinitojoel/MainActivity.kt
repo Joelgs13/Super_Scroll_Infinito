@@ -4,15 +4,17 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.joel.scrollinfinitojoel.TaskAdapter
 import com.joel.scrollinfinitojoel.TaskApplication.Companion.prefs
 
+/**
+ * MainActivity es la actividad principal de la aplicación. Maneja la interfaz de usuario para
+ * la lista de tareas, permitiendo agregar y eliminar tareas y reproducir sonidos al realizar
+ * estas acciones.
+ */
 class MainActivity : AppCompatActivity() {
 
     lateinit var btnAddTask: Button
@@ -20,22 +22,32 @@ class MainActivity : AppCompatActivity() {
     lateinit var rvTask: RecyclerView
     lateinit var adapter: TaskAdapter
 
-
     var tasks = mutableListOf<String>()
     private var mediaPlayer: MediaPlayer? = null
 
+    /**
+     * Método de ciclo de vida onCreate. Configura la actividad y llama a initUi() para inicializar la interfaz de usuario.
+     *
+     * @param savedInstanceState contiene los datos previamente guardados de la actividad si fue cerrada y reabierta.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initUi()
     }
 
-    private fun initUi(){
+    /**
+     * Inicializa la interfaz de usuario llamando a los métodos initView(), initListeners() e initRecyclerView().
+     */
+    private fun initUi() {
         initView()
         initListeners()
         initRecyclerView()
     }
 
+    /**
+     * Configura el RecyclerView con un LinearLayoutManager y el adaptador de tareas, además carga las tareas guardadas.
+     */
     private fun initRecyclerView() {
         tasks = prefs.getTasks()
         rvTask.layoutManager = LinearLayoutManager(this)
@@ -43,6 +55,11 @@ class MainActivity : AppCompatActivity() {
         rvTask.adapter = adapter
     }
 
+    /**
+     * Elimina una tarea de la lista y actualiza el RecyclerView y las preferencias. Reproduce un sonido de eliminación.
+     *
+     * @param position la posición de la tarea a eliminar en la lista.
+     */
     private fun deleteTask(position: Int) {
         tasks.removeAt(position)
         adapter.notifyDataSetChanged()
@@ -50,47 +67,48 @@ class MainActivity : AppCompatActivity() {
         playDeleteTaskSound()
     }
 
+    /**
+     * Establece el listener para el botón de añadir tarea, que llama a addTask() cuando se presiona.
+     */
     private fun initListeners() {
-        btnAddTask.setOnClickListener{addTask()}
+        btnAddTask.setOnClickListener { addTask() }
     }
 
+    /**
+     * Añade una nueva tarea a la lista de tareas, actualiza el RecyclerView y las preferencias, y reproduce un sonido.
+     */
     private fun addTask() {
-        val taskToAdd:String = etTask.text.toString()
+        val taskToAdd: String = etTask.text.toString()
         tasks.add(taskToAdd)
         adapter.notifyDataSetChanged()
         etTask.setText("")
         prefs.saveTasks(tasks)
-        playAddTaskSound() // Reproducir el sonido al añadir tarea
+        playAddTaskSound()
     }
 
+    /**
+     * Reproduce un sonido al añadir una tarea, liberando el MediaPlayer después de que se complete la reproducción.
+     */
     private fun playAddTaskSound() {
-        // Liberar el MediaPlayer si ya se está usando
         mediaPlayer?.release()
-
-        // Inicializar el MediaPlayer con el sonido del recurso raw
         mediaPlayer = MediaPlayer.create(this, R.raw.add_task_sound)
-        mediaPlayer?.start() // Iniciar la reproducción del sonido
-
-        // Liberar el MediaPlayer al finalizar el audio
-        mediaPlayer?.setOnCompletionListener {
-            it.release()
-        }
+        mediaPlayer?.start()
+        mediaPlayer?.setOnCompletionListener { it.release() }
     }
 
+    /**
+     * Reproduce un sonido al eliminar una tarea, liberando el MediaPlayer después de que se complete la reproducción.
+     */
     private fun playDeleteTaskSound() {
-        // Liberar el MediaPlayer si ya se está usando
         mediaPlayer?.release()
-
-        // Inicializar el MediaPlayer con el sonido de eliminar tarea
         mediaPlayer = MediaPlayer.create(this, R.raw.delete_task_sound)
-        mediaPlayer?.start() // Iniciar la reproducción del sonido
-
-        // Liberar el MediaPlayer al finalizar el audio
-        mediaPlayer?.setOnCompletionListener {
-            it.release()
-        }
+        mediaPlayer?.start()
+        mediaPlayer?.setOnCompletionListener { it.release() }
     }
 
+    /**
+     * Inicializa las vistas asignando los elementos de la interfaz a sus respectivas variables.
+     */
     private fun initView() {
         btnAddTask = findViewById(R.id.btnAddTask)
         etTask = findViewById(R.id.etTask)

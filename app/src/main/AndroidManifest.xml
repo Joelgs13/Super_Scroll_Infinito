@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Elemento principal del manifiesto, define el espacio de nombres y el esquema de Android. -->
+
     <application
         android:allowBackup="true"
         android:name=".TaskApplication"
@@ -13,15 +15,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScrollInfinitoJoel"
         tools:targetApi="31">
+
+        <!-- Configura los ajustes generales de la aplicación -->
+        <!-- android:allowBackup="true": Habilita la copia de seguridad de datos de la aplicación. -->
+        <!-- android:name=".TaskApplication": Define la clase Application personalizada. -->
+        <!-- android:dataExtractionRules: Especifica las reglas de extracción de datos, desde un archivo XML. -->
+        <!-- android:fullBackupContent: Indica las reglas de backup, en un archivo XML personalizado. -->
+        <!-- android:icon: Define el ícono de la aplicación. -->
+        <!-- android:label: Establece el nombre de la aplicación desde los recursos de strings. -->
+        <!-- android:roundIcon: Define el icono redondo para dispositivos compatibles. -->
+        <!-- android:supportsRtl="true": Habilita el soporte para diseño RTL (de derecha a izquierda). -->
+        <!-- android:theme: Establece el tema de la aplicación. -->
+        <!-- tools:targetApi="31": Indica que el objetivo de la API es la versión 31 de Android. -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
+            <!-- Define la actividad principal de la aplicación -->
+            <!-- android:name=".MainActivity": Establece la clase MainActivity como la actividad principal. -->
+            <!-- android:exported="true": Indica que la actividad puede ser lanzada por componentes externos. -->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <!-- Declara esta actividad como el punto de entrada principal de la aplicación -->
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <!-- Categoría de lanzador, define que esta actividad se mostrará en el menú de aplicaciones -->
+
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
