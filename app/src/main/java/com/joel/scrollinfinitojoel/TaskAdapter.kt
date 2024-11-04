@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @param onItemDone Callback que se ejecuta cuando se marca una tarea como realizada, con la posición de la tarea.
  */
 class TaskAdapter(
-    private val tasks: List<String>,
+    private val tasks: MutableList<Task>,
     private val onItemDone: (Int) -> Unit
 ) : RecyclerView.Adapter<TaskViewHolder>() {
 
@@ -24,7 +24,7 @@ class TaskAdapter(
      * @return Una instancia de TaskViewHolder.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
+        val layoutInflater = LayoutInflater.from(parent.context)
         return TaskViewHolder(layoutInflater.inflate(R.layout.item_task, parent, false))
     }
 
@@ -42,6 +42,6 @@ class TaskAdapter(
      * @param position Posición de la tarea en la lista.
      */
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.render(tasks[position], onItemDone)
+        holder.render(tasks[position].contenido, onItemDone)
     }
 }

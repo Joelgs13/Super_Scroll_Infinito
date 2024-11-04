@@ -7,7 +7,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.joel.scrollinfinitojoel.TaskAdapter
 import com.joel.scrollinfinitojoel.TaskApplication.Companion.prefs
 
 /**
@@ -22,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var rvTask: RecyclerView
     lateinit var adapter: TaskAdapter
 
-    var tasks = mutableListOf<String>()
+    var tasks = mutableListOf<Task>() //cambia String x Task
     private var mediaPlayer: MediaPlayer? = null
 
     /**
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
      * Configura el RecyclerView con un LinearLayoutManager y el adaptador de tareas, además carga las tareas guardadas.
      */
     private fun initRecyclerView() {
-        tasks = prefs.getTasks()
+        tasks = (application as TaskApplication).bbdd.getTodasTasks()
         rvTask.layoutManager = LinearLayoutManager(this)
         adapter = TaskAdapter(tasks) { deleteTask(it) }
         rvTask.adapter = adapter
@@ -61,9 +60,11 @@ class MainActivity : AppCompatActivity() {
      * @param position la posición de la tarea a eliminar en la lista.
      */
     private fun deleteTask(position: Int) {
+        val tarea = tasks[position]
         tasks.removeAt(position)
         adapter.notifyDataSetChanged()
-        prefs.saveTasks(tasks)
+        (application as TaskApplication).bbdd.deleteTarea(tarea.id)
+
         playDeleteTaskSound()
     }
 
@@ -78,11 +79,16 @@ class MainActivity : AppCompatActivity() {
      * Añade una nueva tarea a la lista de tareas, actualiza el RecyclerView y las preferencias, y reproduce un sonido.
      */
     private fun addTask() {
-        val taskToAdd: String = etTask.text.toString()
-        tasks.add(taskToAdd)
+        val taskContenido = etTask.text.toString().trim()
+        val bbdd = (application as TaskApplication).bbdd
+        val taskId = bbdd.addTarea(taskContenido)
+        val nuevaTarea = Task(id = taskId, contenido = taskContenido)
+
+
+        tasks.add(nuevaTarea)
+
         adapter.notifyDataSetChanged()
         etTask.setText("")
-        prefs.saveTasks(tasks)
         playAddTaskSound()
     }
 

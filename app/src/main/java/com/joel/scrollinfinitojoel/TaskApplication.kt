@@ -8,7 +8,7 @@ import android.app.Application
  * en toda la aplicación.
  */
 class TaskApplication : Application() {
-
+    lateinit var bbdd: DatabaseHelper
     companion object {
         /**
          * Objeto prefs de tipo Preferences para gestionar las preferencias de la aplicación.
@@ -23,6 +23,7 @@ class TaskApplication : Application() {
      */
     override fun onCreate() {
         super.onCreate()
-        prefs = Preferences(baseContext)
+        bbdd = DatabaseHelper(this)
+
     }
 }
