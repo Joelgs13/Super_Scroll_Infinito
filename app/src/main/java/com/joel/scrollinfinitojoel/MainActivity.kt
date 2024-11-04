@@ -79,10 +79,11 @@ class MainActivity : AppCompatActivity() {
     private fun addTask() {
 
         val taskContenido = etTask.text.toString().trim()
-        val bbdd = (application as TaskApplication).bbdd
-        val taskId = bbdd.addTarea(taskContenido)
-        val nuevaTarea = Task(id = taskId, contenido = taskContenido)
+
         if (taskContenido.isNotEmpty()) {
+            val bbdd = (application as TaskApplication).bbdd
+            val taskId = bbdd.addTarea(taskContenido)
+            val nuevaTarea = Task(id = taskId, contenido = taskContenido)
             tasks.add(nuevaTarea)
 
             adapter.notifyDataSetChanged()
