@@ -77,17 +77,23 @@ class MainActivity : AppCompatActivity() {
      * Añade una nueva tarea a la lista de tareas, actualiza el RecyclerView y las preferencias, y reproduce un sonido.
      */
     private fun addTask() {
+
         val taskContenido = etTask.text.toString().trim()
         val bbdd = (application as TaskApplication).bbdd
         val taskId = bbdd.addTarea(taskContenido)
         val nuevaTarea = Task(id = taskId, contenido = taskContenido)
+        if (taskContenido.isNotEmpty()) {
+            tasks.add(nuevaTarea)
+
+            adapter.notifyDataSetChanged()
+            etTask.setText("")
+            playAddTaskSound()
+        } else {
+            etTask.error = "Escribe una tarea!"
+            playDeleteTaskSound()
+        }
 
 
-        tasks.add(nuevaTarea)
-
-        adapter.notifyDataSetChanged()
-        etTask.setText("")
-        playAddTaskSound()
     }
 
     /**
