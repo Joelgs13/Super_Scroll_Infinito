@@ -6,10 +6,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * ViewHolder para un elemento de tarea en un RecyclerView.
- * Administra las vistas de cada tarea y el botón de finalización.
+ * ViewHolder para representar y administrar un elemento de tarea en un RecyclerView.
+ * Muestra la información de cada tarea y proporciona una opción para marcarla como completada.
  *
- * @param view La vista correspondiente al layout de un elemento de tarea.
+ * @param view La vista correspondiente al layout de un elemento de tarea, que contiene la tarea y un botón de finalización.
  */
 class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -18,11 +18,11 @@ class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     /**
      * Rellena la vista del elemento con los datos de la tarea y establece el comportamiento
-     * del botón de finalización.
+     * del botón para marcar la tarea como completada.
      *
-     * @param task Texto de la tarea a mostrar.
-     * @param onItemDone Callback que se ejecuta cuando se marca la tarea como completada,
-     * pasando la posición del elemento.
+     * @param task Texto que representa el contenido de la tarea.
+     * @param onItemDone Función callback que se invoca cuando se marca la tarea como completada.
+     * La función recibe como parámetro la posición actual del elemento en el adaptador.
      */
     fun render(task: String, onItemDone: (Int) -> Unit) {
         tvTask.text = task

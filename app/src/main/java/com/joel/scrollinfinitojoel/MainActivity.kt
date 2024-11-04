@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 /**
- * MainActivity es la actividad principal de la aplicación. Maneja la interfaz de usuario para
- * la lista de tareas, permitiendo agregar y eliminar tareas y reproducir sonidos al realizar
- * estas acciones.
+ * MainActivity es la interfaz principal de la aplicación. Administra la lista de tareas,
+ * permitiendo a los usuarios agregar y eliminar tareas, reproduciendo sonidos respectivos para estas acciones.
  */
 class MainActivity : AppCompatActivity() {
 
@@ -24,9 +24,10 @@ class MainActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
 
     /**
-     * Método de ciclo de vida onCreate. Configura la actividad y llama a initUi() para inicializar la interfaz de usuario.
+     * Método de ciclo de vida onCreate. Configura la actividad e inicializa los componentes de la interfaz
+     * de usuario llamando a initUi().
      *
-     * @param savedInstanceState contiene los datos previamente guardados de la actividad si fue cerrada y reabierta.
+     * @param savedInstanceState contiene los datos previamente guardados si la actividad fue cerrada y reabierta.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Inicializa la interfaz de usuario llamando a los métodos initView(), initListeners() e initRecyclerView().
+     * Inicializa la interfaz de usuario configurando las vistas, los listeners y el RecyclerView.
      */
     private fun initUi() {
         initView()
@@ -44,7 +45,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Configura el RecyclerView con un LinearLayoutManager y el adaptador de tareas, además carga las tareas guardadas.
+     * Configura el RecyclerView con un LinearLayoutManager y establece el adaptador de tareas.
+     * Carga las tareas guardadas previamente en la vista.
      */
     private fun initRecyclerView() {
         tasks = (application as TaskApplication).bbdd.getTodasTasks()
@@ -56,14 +58,15 @@ class MainActivity : AppCompatActivity() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) = false
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                deleteTask(viewHolder.adapterPosition) // Llama al método para eliminar la tarea en la posición desliz
+                deleteTask(viewHolder.adapterPosition) // Llama al método para eliminar la tarea en la posición deslizada
             }
         }
-        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvTask) // Asigna el helper al RecyclerVie
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvTask) // Asigna el helper al RecyclerView
     }
 
     /**
-     * Elimina una tarea de la lista y actualiza el RecyclerView y las preferencias. Reproduce un sonido de eliminación.
+     * Elimina una tarea de la lista, actualiza el RecyclerView y la base de datos.
+     * Reproduce un sonido al eliminar la tarea.
      *
      * @param position la posición de la tarea a eliminar en la lista.
      */
@@ -77,17 +80,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Establece el listener para el botón de añadir tarea, que llama a addTask() cuando se presiona.
+     * Establece el listener para el botón de añadir tarea, llamando a addTask() al hacer clic.
      */
     private fun initListeners() {
         btnAddTask.setOnClickListener { addTask() }
     }
 
     /**
-     * Añade una nueva tarea a la lista de tareas, actualiza el RecyclerView y las preferencias, y reproduce un sonido.
+     * Añade una nueva tarea a la lista, actualiza el RecyclerView y la base de datos,
+     * y reproduce un sonido al añadir la tarea.
      */
     private fun addTask() {
-
         val taskContenido = etTask.text.toString().trim()
 
         if (taskContenido.isNotEmpty()) {
@@ -103,12 +106,10 @@ class MainActivity : AppCompatActivity() {
             etTask.error = "Escribe una tarea!"
             playNullTaskSound()
         }
-
-
     }
 
     /**
-     * Reproduce un sonido al añadir una tarea, liberando el MediaPlayer después de que se complete la reproducción.
+     * Reproduce un sonido al añadir una tarea y libera el MediaPlayer cuando se completa la reproducción.
      */
     private fun playAddTaskSound() {
         mediaPlayer?.release()
@@ -118,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Reproduce un sonido al eliminar una tarea, liberando el MediaPlayer después de que se complete la reproducción.
+     * Reproduce un sonido al eliminar una tarea y libera el MediaPlayer cuando se completa la reproducción.
      */
     private fun playDeleteTaskSound() {
         mediaPlayer?.release()
@@ -127,6 +128,9 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer?.setOnCompletionListener { it.release() }
     }
 
+    /**
+     * Reproduce un sonido cuando se intenta añadir una tarea vacía y libera el MediaPlayer cuando se completa.
+     */
     private fun playNullTaskSound() {
         mediaPlayer?.release()
         mediaPlayer = MediaPlayer.create(this, R.raw.nulo)
@@ -135,7 +139,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Inicializa las vistas asignando los elementos de la interfaz a sus respectivas variables.
+     * Inicializa las vistas, asignando los elementos de la interfaz a sus variables correspondientes.
      */
     private fun initView() {
         btnAddTask = findViewById(R.id.btnAddTask)
