@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             playAddTaskSound()
         } else {
             etTask.error = "Escribe una tarea!"
-            playDeleteTaskSound()
+            playNullTaskSound()
         }
 
 
@@ -123,6 +123,13 @@ class MainActivity : AppCompatActivity() {
     private fun playDeleteTaskSound() {
         mediaPlayer?.release()
         mediaPlayer = MediaPlayer.create(this, R.raw.delete_task_sound)
+        mediaPlayer?.start()
+        mediaPlayer?.setOnCompletionListener { it.release() }
+    }
+
+    private fun playNullTaskSound() {
+        mediaPlayer?.release()
+        mediaPlayer = MediaPlayer.create(this, R.raw.nulo)
         mediaPlayer?.start()
         mediaPlayer?.setOnCompletionListener { it.release() }
     }
